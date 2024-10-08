@@ -35,8 +35,38 @@ class ProjectController extends Controller
         $slug = Helper::generateSlug($validated_data['title'], Project::class);
         $validated_data['slug'] = $slug;
 
-        Project::create($validated_data);
+        $proj = Project::create($validated_data);
         return redirect()->route('projects.index');
 
+    }
+
+
+    public function edit(Request $request, Project $project)
+    {
+        return view('admin.projects.edit', ['project' => $project]);
+    }
+
+    public function update(Request $request, Project $project)
+    {
+        $validated_data = $request->validate([
+            'title' => 'required',
+            'text' => 'required',
+            'path_image' => 'nullable|image|max:2048',
+        ]);
+
+        $project->update($validated_data);
+        return redirect()->route('projects.show', $project);
+    }
+
+    public function show(Request $request, Project $project)
+    {
+        return view('admin.projects.show', ['project' => $project]);
+    }
+
+    public function delete(Request $request, Project $project)
+    {
+        // Storage::delete(['file', 'otherFile']);
+        $project->delete();
+        return redirect()->route('projects.index');
     }
 }

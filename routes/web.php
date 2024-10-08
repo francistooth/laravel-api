@@ -33,6 +33,10 @@ Route::middleware(['auth', 'verified'])
         Route::get('/', [ProjectController::class, 'index'])->name('index');
         Route::get('/create', [ProjectController::class, 'create'])->name('create');
         Route::post('/', [ProjectController::class, 'store'])->name('store');
+        Route::get('/edit/{project}', [ProjectController::class, 'edit'])->name('edit');
+        Route::put('/update/{project}', [ProjectController::class, 'update'])->name('update');
+        Route::get('/{project}', [ProjectController::class, 'show'])->name('show');
+        Route::delete('/{project}/delete', [ProjectController::class, 'delete'])->name('delete');
     });
 
 Route::middleware('auth')->group(function () {
